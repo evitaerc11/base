@@ -5,11 +5,18 @@ import { CookiesProvider } from 'react-cookie'
 // Custom Chakra theme
 import theme from 'theme/theme.js'
 import Router from 'routers.js'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+const queryClient = new QueryClient()
 
 ReactDOM.render(
   <ChakraProvider theme={theme} resetCss={false} position='relative'>
     <CookiesProvider>
-      <Router />
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </CookiesProvider>
   </ChakraProvider>,
   document.getElementById('root')

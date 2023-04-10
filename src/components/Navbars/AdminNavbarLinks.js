@@ -64,8 +64,8 @@ export default function HeaderLinks(props) {
       alignItems='center'
       flexDirection='row'
     >
-      <SearchBar me='18px' />
-      <NavLink to='/auth/signin'>
+      {/* <SearchBar me='18px' /> */}
+      {/* <NavLink to='/auth/signin'>
         <Button
           ms='0px'
           px='0px'
@@ -89,7 +89,7 @@ export default function HeaderLinks(props) {
         >
           <Text display={{ sm: 'none', md: 'flex' }}>Sign In</Text>
         </Button>
-      </NavLink>
+      </NavLink> */}
       <SidebarResponsive
         hamburgerColor={'white'}
         logo={
@@ -113,7 +113,7 @@ export default function HeaderLinks(props) {
         }
         colorMode={colorMode}
         secondary={props.secondary}
-        routes={routes}
+        routes={routes.filter((route) => route.layout === '/admin')}
         {...rest}
       />
       <SettingsIcon
@@ -125,7 +125,7 @@ export default function HeaderLinks(props) {
         w='18px'
         h='18px'
       />
-      <Menu>
+      {/* <Menu>
         <MenuButton>
           <BellIcon color={navbarIcon} w='18px' h='18px' />
         </MenuButton>
@@ -160,7 +160,7 @@ export default function HeaderLinks(props) {
             </MenuItem>
           </Flex>
         </MenuList>
-      </Menu>
+      </Menu> */}
     </Flex>
   )
 }

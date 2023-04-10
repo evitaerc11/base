@@ -1,8 +1,9 @@
 import axios from 'axios'
-import { prefixApi } from '../constants'
+import { URL_PREFIX } from '../constants'
 import { STORAGE } from 'constants/common'
+import { getCookie } from 'utils'
 
-const getUrlPrefix = () => prefixApi // api/
+const getUrlPrefix = () => '/'
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -11,11 +12,10 @@ const instance = axios.create({
   }
 })
 
-//TODO
-// const accessToken = load(STORAGE.ACCESS_TOKEN)
-// if (accessToken) {
-//   instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-// }
+const accessToken = getCookie(STORAGE.ACCESS_TOKEN)
+if (accessToken) {
+  instance.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
+}
 
 instance.interceptors.request.use(
   function (config) {

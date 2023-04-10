@@ -18,6 +18,7 @@ import {
 } from 'components/Icons/Icons'
 import { STORAGE } from 'constants/common'
 import { getCookie } from 'utils'
+import CRUDExample from 'views/Dashboard/CRUDExample'
 
 const accessToken = getCookie(STORAGE.ACCESS_TOKEN)
 export const dashRoutes = [
@@ -36,8 +37,15 @@ export const dashRoutes = [
     layout: '/admin'
   },
   {
+    path: '/crud',
+    name: 'CRUD',
+    icon: <StatsIcon color='inherit' />,
+    component: CRUDExample,
+    layout: '/admin'
+  },
+  {
     path: '/login',
-    name: 'Tables',
+    name: 'Login',
     icon: <StatsIcon color='inherit' />,
     component: SignIn,
     layout: '/auth'
@@ -50,11 +58,11 @@ const Router = () => {
     <BrowserRouter>
       <Switch>
         <Route path={`/auth`} component={AuthLayout} />
-        {accessToken ? (
+        {/* {accessToken ? ( */}
           <Route path={`/admin`} component={AdminLayout} />
-        ) : (
-          <Redirect to='/auth/login' />
-        )}
+        {/* // ) : (
+        //   <Redirect to='/auth/login' />
+        // )} */}
       </Switch>
     </BrowserRouter>
   )

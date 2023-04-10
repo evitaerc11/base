@@ -27,12 +27,16 @@ import MainPanel from "../components/Layout/MainPanel";
 import PanelContainer from "../components/Layout/PanelContainer";
 import PanelContent from "../components/Layout/PanelContent";
 import bgAdmin from "assets/img/admin-background.png";
+import { STORAGE } from "constants/common";
+import { getCookie } from "utils";
 
 export default function Dashboard(props) {
   const { ...rest } = props;
   // states and functions
   const [fixed, setFixed] = useState(false);
   const { colorMode } = useColorMode();
+
+  const accessToken = getCookie(STORAGE.ACCESS_TOKEN)
 
   // functions for changing the states from components
   const getRoute = () => {
@@ -142,7 +146,7 @@ export default function Dashboard(props) {
             {...rest}
           />
         </Portal>
-        {getRoute() ? (
+        {accessToken && getRoute() ? (
           <PanelContent>
             <PanelContainer>
               <Switch>
@@ -151,7 +155,9 @@ export default function Dashboard(props) {
               </Switch>
             </PanelContainer>
           </PanelContent>
-        ) : null}
+        ) : 
+        <Redirect to='/auth/login' />
+        }
         <Footer />
         <Portal>
           <FixedPlugin

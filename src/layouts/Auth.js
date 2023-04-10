@@ -3,12 +3,17 @@ import { Box, ChakraProvider, Portal } from '@chakra-ui/react'
 import Footer from 'components/Footer/Footer.js'
 // core components
 import AuthNavbar from 'components/Navbars/AuthNavbar.js'
+import { STORAGE } from 'constants/common'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { dashRoutes as routes } from 'routers'
+import { getCookie } from 'utils'
 
 export default function Pages(props) {
   const { ...rest } = props
+
+  const accessToken = getCookie(STORAGE.ACCESS_TOKEN)
+  
   // ref for the wrapper div
   const wrapper = React.createRef()
   React.useEffect(() => {
@@ -39,18 +44,7 @@ export default function Pages(props) {
     }
     return activeRoute
   }
-  const getActiveNavbar = (routes) => {
-    let activeNavbar = false
-    for (let i = 0; i < routes.length; i++) {
-      if (routes[i].category) {
-        let categoryActiveNavbar = getActiveNavbar(routes[i].views)
-        if (categoryActiveNavbar !== activeNavbar) {
-          return categoryActiveNavbar
-        }
-      }
-    }
-    return activeNavbar
-  }
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
       if (prop.layout === '/auth') {
@@ -66,13 +60,14 @@ export default function Pages(props) {
       }
     })
   }
+
   const navRef = React.useRef()
   document.documentElement.dir = 'ltr'
   return (
     <Box ref={navRef} w='100%'>
       <Portal containerRef={navRef}>
-        <AuthNavbar secondary={getActiveNavbar(routes)} logoText='' />
       </Portal>
+      {accessToken ? <Redirect to='/admin/dashboard' /> : 
       <Box w='100%'>
         <Box ref={wrapper} w='100%'>
           <Switch>
@@ -80,7 +75,8 @@ export default function Pages(props) {
             <Redirect from='/auth' to='/auth/login' />
           </Switch>
         </Box>
-      </Box>
+      </Box>}
+      
       <Box px='24px' mx='auto' width='1044px' maxW='100%' mt='60px'>
         <Footer />
       </Box>
